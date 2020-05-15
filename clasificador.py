@@ -64,7 +64,7 @@ class Clasificador(object):
 
         self.df_discos = pd.read_csv("discos.csv", sep=";", header=None, encoding='latin1')
         self.df_discos.columns = ["DiscoId", "DiscoName", "Direction", "DiscoPlace", "Type", "Description", "MusicType",
-                                  "ExpensiveLevel", "Schedule", "Puntuation", "WebSite", "Tel"]
+                                  "ExpensiveLevel", "Schedule", "Puntuation", "WebSite", "Tel", "Ubication"]
 
         records = self.df_discos.iloc[self.top_k_items[1]].to_dict(orient="records")
         # records = json.dumps(records).decode('unicode-escape').encode('utf8')
