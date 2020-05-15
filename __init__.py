@@ -1,25 +1,29 @@
-from flask import Flask, escape, request, jsonify
+from flask import Flask, escape, request, jsonify, json
+from flask_cors import CORS
 
 from clasificador import Clasificador
 
 clasificadorI = Clasificador()
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/")
 def init():
     return "status ok"
 
-@app.route("/clasificador")
+@app.route("/clasificador", methods=['GET', 'POST'])
 def mostrar():
-    return jsonify(clasificadorI.calcular("oldani"))
+    return clasificadorI.recomendacionDiscotecas()
 
-@app.route("/clasificador1")
-def mostrar1():
-    return jsonify(clasificadorI.calcular1())
+@app.route("/populares", methods=['GET', 'POST'])
+def mostrarPopulares():
+    return clasificadorI.recomendarPopulares()
 
 if __name__ == "__main__":
     clasificadorI.leerData()
     clasificadorI.generarMatriz()
+    clasificadorI.recomendacionDiscotecas()
+    clasificadorI.recomendarPopulares()
     app.run()
 
