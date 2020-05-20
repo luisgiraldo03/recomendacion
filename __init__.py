@@ -20,10 +20,15 @@ def mostrar():
 def mostrarPopulares():
     return clasificadorI.recomendarPopulares()
 
+@app.route("/filtrar", methods=['GET', 'POST'])
+def mostrarFiltro():
+    return clasificadorI.filtrar()
+
 if __name__ == "__main__":
     clasificadorI.leerData()
     clasificadorI.generarMatriz()
     clasificadorI.recomendacionDiscotecas()
     clasificadorI.recomendarPopulares()
+    clasificadorI.filtrar()
     app.run()
 

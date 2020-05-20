@@ -49,7 +49,7 @@ class Clasificador(object):
         n_discos = self.ratings_train.shape[1]
         print(n_discos)
         neighbors = NearestNeighbors(n_discos, 'cosine')
-        neighbors.fit(self.ratings_train.T)  # quedan en las filas las películas
+        neighbors.fit(self.ratings_train.T)  # quedan en las filas las discos
         top_k_distances, top_k_items = neighbors.kneighbors(self.ratings_train.T, return_distance=True)
         print(top_k_items)#peliculas similares
 
@@ -82,6 +82,25 @@ class Clasificador(object):
         print(result)
 
         return result
+
+    def filtrar(self):
+        self.df_discos = pd.read_csv("discos.csv", sep=";", header=None, encoding='latin1')
+        self.df_discos.columns = ["DiscoId", "DiscoName", "Direction", "DiscoPlace", "Type", "Description", "MusicType",
+                                  "ExpensiveLevel", "Schedule", "Puntuation", "WebSite", "Tel", "Ubication"]
+        print("------------------------")
+        print("Fitro")
+        por_ubicacion = self.df_discos['Ubication'] == 'Sur'
+        filtradas_ubicacion = self.df_discos[por_ubicacion]
+
+        por_musica = filtradas_ubicacion['MusicType'] == 'Salsa'
+        filtrado_musica = filtradas_ubicacion[por_musica]
+
+        result_most_popular = filtrado_musica.sort_values(by="Puntuation", ascending=False).iloc[0:10]
+        result = result_most_popular.to_json(orient='records')
+        print(filtrado_musica.head())
+
+        return result
+
 
 
 
