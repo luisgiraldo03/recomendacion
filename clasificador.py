@@ -1,18 +1,9 @@
-import pandas as pd
-import numpy as np
 import json
-from collections import OrderedDict, defaultdict
-from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split
 from sklearn.neighbors import NearestNeighbors
-import matplotlib.pyplot as plt
-import sklearn
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
 from sklearn.model_selection import train_test_split
-from pandas import DataFrame as df
-import sklearn
+
 
 class Clasificador(object):
     __instance = None
@@ -60,11 +51,12 @@ class Clasificador(object):
         top_k_distances, self.top_k_items = neighbors.kneighbors(self.ratings_train.T, return_distance=True)
         print("------------------------------")
         print("discotecas parecidas a babylon")
+        print(type(self.top_k_items))
         print(self.top_k_items[1])  # discotecas mas parecidas a "Babylon"
 
         self.df_discos = pd.read_csv("discos.csv", sep=";", header=None, encoding='latin1')
         self.df_discos.columns = ["DiscoId", "DiscoName", "Direction", "DiscoPlace", "Type", "Description", "MusicType",
-                                  "ExpensiveLevel", "Schedule", "Puntuation", "WebSite", "Tel", "Ubication"]
+                                  "ExpensiveLevel", "Schedule", "Puntuation", "WebSite", "Tel", "Ubication", "Latitude","Length"]
 
         records = self.df_discos.iloc[self.top_k_items[1]].to_dict(orient="records")
         # records = json.dumps(records).decode('unicode-escape').encode('utf8')
@@ -83,16 +75,16 @@ class Clasificador(object):
 
         return result
 
-    def filtrar(self):
+    def filtrar(self, music, ubication):
         self.df_discos = pd.read_csv("discos.csv", sep=";", header=None, encoding='latin1')
         self.df_discos.columns = ["DiscoId", "DiscoName", "Direction", "DiscoPlace", "Type", "Description", "MusicType",
-                                  "ExpensiveLevel", "Schedule", "Puntuation", "WebSite", "Tel", "Ubication"]
+                                  "ExpensiveLevel", "Schedule", "Puntuation", "WebSite", "Tel", "Ubication","Latitude","Length"]
         print("------------------------")
         print("Fitro")
-        por_ubicacion = self.df_discos['Ubication'] == 'Sur'
+        por_ubicacion = self.df_discos['Ubication'] == ubication
         filtradas_ubicacion = self.df_discos[por_ubicacion]
 
-        por_musica = filtradas_ubicacion['MusicType'] == 'Salsa'
+        por_musica = filtradas_ubicacion['MusicType'] == music
         filtrado_musica = filtradas_ubicacion[por_musica]
 
         result_most_popular = filtrado_musica.sort_values(by="Puntuation", ascending=False).iloc[0:10]

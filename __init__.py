@@ -1,4 +1,5 @@
 from flask import Flask, escape, request, jsonify, json
+from flask_request_params import bind_request_params
 from flask_cors import CORS
 
 from clasificador import Clasificador
@@ -22,13 +23,17 @@ def mostrarPopulares():
 
 @app.route("/filtrar", methods=['GET', 'POST'])
 def mostrarFiltro():
-    return clasificadorI.filtrar()
+    music = request.args['music']
+    numberPeople = request.args.get('numberPeople')
+    ubication = request.args['ubication']
+    preference = request.args.get('preference')
+    return clasificadorI.filtrar(music, ubication)
 
 if __name__ == "__main__":
     clasificadorI.leerData()
     clasificadorI.generarMatriz()
     clasificadorI.recomendacionDiscotecas()
     clasificadorI.recomendarPopulares()
-    clasificadorI.filtrar()
+    #clasificadorI.filtrar("", "", "", "", "")
     app.run()
 
