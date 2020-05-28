@@ -68,6 +68,7 @@ class Clasificador(object):
         return result
 
     def recomendarPopulares(self):
+        self.generarMatriz()
         self.df_discos = self.df_discos.sort_values(by="Puntuation", ascending=False).iloc[0:10]
         print(self.df_discos)
         result = self.df_discos.to_json(orient='records')
