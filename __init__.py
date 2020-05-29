@@ -27,6 +27,8 @@ def mostrarPopulares():
 
 @app.route("/filtrar", methods=['GET', 'POST'])
 def mostrarFiltro():
+    clasificadorI.leerData()
+    clasificadorI.generarMatriz()
     music = request.args['music']
     numberPeople = request.args.get('numberPeople')
     ubication = request.args['ubication']
