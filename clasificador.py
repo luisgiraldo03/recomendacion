@@ -37,7 +37,6 @@ class Clasificador(object):
         self.ratings_train, self.ratings_test = train_test_split(self.ratings, test_size=0.3, random_state=42)
 
     def recomendacionDiscotecas(self):
-        self.generarMatriz()
         n_discos = self.ratings_train.shape[1]
         print(n_discos)
         neighbors = NearestNeighbors(n_discos, 'cosine')
