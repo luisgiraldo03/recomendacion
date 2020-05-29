@@ -15,6 +15,7 @@ def init():
 
 @app.route("/clasificador", methods=['GET', 'POST'])
 def mostrar():
+    clasificadorI.generarMatriz()
     return clasificadorI.recomendacionDiscotecas()
 
 @app.route("/populares", methods=['GET', 'POST'])
