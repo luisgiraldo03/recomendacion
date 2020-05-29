@@ -15,11 +15,13 @@ def init():
 
 @app.route("/clasificador", methods=['GET', 'POST'])
 def mostrar():
+    clasificadorI.leerData()
     clasificadorI.generarMatriz()
     return clasificadorI.recomendacionDiscotecas()
 
 @app.route("/populares", methods=['GET', 'POST'])
 def mostrarPopulares():
+    clasificadorI.leerData()
     clasificadorI.generarMatriz()
     return clasificadorI.recomendarPopulares()
 
