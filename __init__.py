@@ -20,6 +20,7 @@ def mostrar():
 
 @app.route("/populares", methods=['GET', 'POST'])
 def mostrarPopulares():
+    clasificadorI.generarMatriz()
     return clasificadorI.recomendarPopulares()
 
 @app.route("/filtrar", methods=['GET', 'POST'])
